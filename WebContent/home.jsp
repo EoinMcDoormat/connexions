@@ -11,15 +11,18 @@
 </head>
 <body>
 	<h1>Home</h1>
-	Welcome ${sessionScope.currentSessionUser.firstName}
-	${sessionScope.currentSessionUser.lastName}
+	Welcome ${sessionScope.currentSessionUser.username}	
 	<br>
-
-	<h2>conneXions</h2>
-	<form action="connexions" method="post">
-		<button type="submit" name="action" value="view">view all</button>
-		<button type="submit" name="action" value="showrequests">show
-			requests</button>
+	<a href="home.jsp">home</a>
+	<a href="profiles">profile</a>
+	<a href="notifications/index.jsp">notifications</a>
+	<a href="friends">conneXions</a>
+	<a href="messages/index.jsp">messages</a>
+	<a href="groups/index.jsp">groups</a>
+	<a href="jobs/index.jsp">jobs</a>
+	
+	
+	<form action="search" method="post">
 		<input size="5" type="text" name="searchString" /><input
 			type="submit" name="action" value="search">
 	</form>

@@ -14,8 +14,6 @@
 		email <input type="text" name="username" /><br>
 		password <input type="text" name="password" /><br>
 		verify password <input type="text" name="passwordMatch" /><br>
-		first name <input type="text" name="firstName" /><br>
-		last name <input type="text" name="lastName" /><br>
 		<input type="submit" name="action" value="register"/>
 	</form>
 	<p><a href="login.jsp">login</a></p>

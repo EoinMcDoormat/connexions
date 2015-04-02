@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.connexions.models.Connexion;
+import com.connexions.models.dao.FriendDAO;
+import com.connexions.models.Friend;
 import com.connexions.models.User;
-import com.connexions.models.dao.ConnexionDAO;
 
-@WebServlet("/connexions")
-public class ConnexionServlet extends HttpServlet {
+@WebServlet("/friends")
+public class FriendServlet extends HttpServlet {
 	private static final long serialVersionUID = 6263655861067412880L;
 
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -32,43 +32,43 @@ public class ConnexionServlet extends HttpServlet {
 		String acceptId = request.getParameter("accept");
 		String rejectId = request.getParameter("reject");
 
-		List<Connexion> connexions = new ArrayList<Connexion>();
+		List<Friend> friends = new ArrayList<Friend>();
 
 		if (action != null) {
 			if (action.equals("view")) {
-				view(id, connexions, request, response);
+				view(id, friends, request, response);
 			} else if (action.equals("showrequests")) {
-				showrequests(id, connexions, request, response);
+				showrequests(id, friends, request, response);
 			} else if (action.equals("search")) {
-				search(id, connexions, request, response);
+				search(id, friends, request, response);
 			}
 		}
 
 		else {
 			if (addId != null) {
 
-				add(id, Integer.parseInt(addId), connexions, request, response);
+				add(id, Integer.parseInt(addId), friends, request, response);
 			}
 			if (removeId != null) {
 
-				remove(id, Integer.parseInt(removeId), connexions, request, response);
+				remove(id, Integer.parseInt(removeId), friends, request, response);
 			}
 			if (acceptId != null) {
 
-				accept(id, Integer.parseInt(acceptId), connexions, request, response);
+				accept(id, Integer.parseInt(acceptId), friends, request, response);
 			}
 			if (rejectId != null) {
 
-				reject(id, Integer.parseInt(rejectId), connexions, request, response);
+				reject(id, Integer.parseInt(rejectId), friends, request, response);
 			}
 		}
 	}
 
-	private void reject(int id, int conid, List<Connexion> connexions,
+	private void reject(int id, int conid, List<Friend> friends,
 			HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			ConnexionDAO.rejectConnexion(conid, id);
+			FriendDAO.rejectFriend(conid, id);
 			response.sendRedirect("home.jsp");				
 		
 		} catch (Throwable theException) {
@@ -76,23 +76,11 @@ public class ConnexionServlet extends HttpServlet {
 		}
 	}
 
-	private void accept(int id, int conid, List<Connexion> connexions,
-			HttpServletRequest request, HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		try {
-			ConnexionDAO.acceptConnexion(conid, id);
-			response.sendRedirect("home.jsp");				
-		
-		} catch (Throwable theException) {
-			System.out.println(theException);
-		}
-	}
-
-	private void remove(int id, int conid, List<Connexion> connexions,
+	private void accept(int id, int conid, List<Friend> friends,
 			HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
 		try {
-			ConnexionDAO.removeConnexion(id, conid);
+			FriendDAO.acceptFriend(conid, id);
 			response.sendRedirect("home.jsp");				
 		
 		} catch (Throwable theException) {
@@ -100,10 +88,22 @@ public class ConnexionServlet extends HttpServlet {
 		}
 	}
 
-	private void add(int addId, int connId, List<Connexion> connexions, HttpServletRequest request, HttpServletResponse response) {
+	private void remove(int id, int conid, List<Friend> friends,
+			HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		try {
+			FriendDAO.removeFriend(id, conid);
+			response.sendRedirect("home.jsp");				
+		
+		} catch (Throwable theException) {
+			System.out.println(theException);
+		}
+	}
+
+	private void add(int addId, int connId, List<Friend> friends, HttpServletRequest request, HttpServletResponse response) {
 		
 		try {
-			ConnexionDAO.requestConnexion(addId, connId);
+			FriendDAO.requestFriend(addId, connId);
 			response.sendRedirect("home.jsp");				
 		
 		} catch (Throwable theException) {
@@ -112,28 +112,28 @@ public class ConnexionServlet extends HttpServlet {
 		
 	}
 
-	private void search(int id, List<Connexion> connexions,
+	private void search(int id, List<Friend> friends,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
 			String searchString = request.getParameter("searchString");
-			connexions = ConnexionDAO.searchConnexions(searchString);
-			request.setAttribute("search", connexions); // set array list
+			friends = FriendDAO.searchFriends(searchString);
+			request.setAttribute("search", friends); // set array list
 			RequestDispatcher view = request
-					.getRequestDispatcher("connexion.jsp");
+					.getRequestDispatcher("friends/index.jsp");
 			view.forward(request, response);
 		} catch (Throwable theException) {
 			System.out.println(theException);
 		}
 	}
 
-	private void showrequests(int id, List<Connexion> requests,
+	private void showrequests(int id, List<Friend> requests,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			requests = ConnexionDAO.showRequests(id);
+			requests = FriendDAO.showRequests(id);
 
 			request.setAttribute("requests", requests);
 			RequestDispatcher view = request
-					.getRequestDispatcher("connexion.jsp");
+					.getRequestDispatcher("friends/index.jsp");
 			view.forward(request, response);
 
 		} catch (Throwable theException) {
@@ -141,13 +141,13 @@ public class ConnexionServlet extends HttpServlet {
 		}
 	}
 
-	private void view(int id, List<Connexion> connexions,
+	private void view(int id, List<Friend> friends,
 			HttpServletRequest request, HttpServletResponse response) {
 		try {
-			connexions = ConnexionDAO.showAllConnexions(id);
-			request.setAttribute("connexions", connexions);
+			friends = FriendDAO.showAllFriends(id);
+			request.setAttribute("friends", friends);
 			RequestDispatcher view = request
-					.getRequestDispatcher("connexion.jsp");
+					.getRequestDispatcher("friends/index.jsp");
 			view.forward(request, response);
 		} catch (Throwable theException) {
 			System.out.println(theException);

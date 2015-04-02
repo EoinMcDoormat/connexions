@@ -21,9 +21,6 @@ public class UserServlet extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		String firstName = request.getParameter("firstName");
-		String lastName = request.getParameter("lastName");
-
 		String action = request.getParameter("action");
 
 		if(action.equals("logout")) {
@@ -32,7 +29,7 @@ public class UserServlet extends HttpServlet {
 		else if (action.equals("login")) {
 			login(username, password, request, response);
 		} else if (action.equals("register")) {
-			register(username, password, firstName, lastName, request, response);
+			register(username, password, request, response);
 		}
 	}
 
@@ -46,11 +43,12 @@ public class UserServlet extends HttpServlet {
 		}	
 	}
 
-	private void register(String username, String password, String firstName,
-			String lastName, HttpServletRequest request,
+	private void register(String username, String password, HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			User user = new User(username, password, firstName, lastName);
+			User user = new User();
+			user.setUserName(username);
+			user.setPassword(password);
 			user = UserDAO.register(user);
 
 			if (user.isValid()) {

@@ -1,12 +1,10 @@
 package com.connexions.models;
 
-public class Connexion {
+public class Friend {
 	private int id;
-	private String username;
-	private String firstName;
-	private String lastName;
+	private String username, firstName, lastName, position;
 	
-	public Connexion(int id, String firstName, String lastName){
+	public Friend(int id, String firstName, String lastName){
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
