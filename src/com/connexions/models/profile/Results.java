@@ -1,16 +1,18 @@
-package com.connexions.models;
+package com.connexions.models.profile;
 
 public class Results {
-	private int id;
-	private double year;
+	private int id, year;
 	private String subject, result;
 	
-	public Results(int id, double year, String subject, String result) {
+	public Results(int id, int year, String subject, String result) {
 		super();
 		this.id = id;
 		this.year = year;
 		this.subject = subject;
 		this.result = result;
+	}
+	public Results() {
+		// TODO Auto-generated constructor stub
 	}
 	public int getId() {
 		return id;
@@ -18,10 +20,10 @@ public class Results {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public double getYear() {
+	public int getYear() {
 		return year;
 	}
-	public void setYear(double year) {
+	public void setYear(int year) {
 		this.year = year;
 	}
 	public String getSubject() {

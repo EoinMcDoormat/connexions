@@ -2,6 +2,7 @@ package com.connexions.controllers;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,9 +26,12 @@ public class ProfileServlet extends HttpServlet {
 		User user = new User();
 		user = (User) session.getAttribute("currentSessionUser");
 		int id = user.getId();
-		System.out.println(id);
 		Profile profile = new Profile();
-		profile = ProfileDAO.index(id);		
+		profile = ProfileDAO.index(id);	
+		request.setAttribute("profile", profile); // set array list		
+		RequestDispatcher view = request
+				.getRequestDispatcher("profiles/index.jsp");
+		view.forward(request, response);
 	}
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)

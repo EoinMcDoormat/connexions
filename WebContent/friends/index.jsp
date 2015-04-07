@@ -11,43 +11,17 @@
 </head>
 <body>
 	<h1>friends</h1>
-	<table>
-		<c:forEach items="${requests}" var="friend">
-			<tr>
-				<td>${friend.firstName}</td>
-				<td>${friend.lastName}</td>
-				<td><form action="friends" method="post">
-						<button name="accept" type="submit" value="${friend.id}">accept friend</button>
-					</form></td>
-					<td><form action="friends" method="post">
-						<button name="reject" type="submit" value="${friend.id}">reject friend</button>
-					</form></td>
-			</tr>
+		<c:forEach var="friends" items="${friends}">
+		<h4>
+			<c:out value="${friends.firstName}" />
+			<c:out value="${friends.lastName}" />			
+		</h4>
+		<c:out value="${friends.position}" />
+		<c:out value="${friends.institution}" /><br/>
 		</c:forEach>
-		<c:forEach items="${search}" var="friend">
-			<tr>
-				<td>${friend.firstName}</td>
-				<td>${friend.lastName}</td>
-				<td><form action="friends" method="post">
-						<button name="add" type="submit" value="${friend.id}">add friend</button>
-						</form></td>
-			</tr>
-		</c:forEach>
-		<c:forEach items="${friends}" var="friend">
-			<tr>
-				<td>${friend.firstName}</td>
-				<td>${friend.lastName}</td>
-				<td><form action="friends" method="post">
-						<button name="remove" type="submit" value="${friend.id}">remove friend</button>
-					</form></td>
-			</tr>
-		</c:forEach>
-	</table>
-	<p>
-		<a href="home.jsp">home</a>
-	</p>
+	
 	<form action="users" method="post">
-    <input type="submit" name="action" value="logout" />
-</form>
+		<input type="submit" name="action" value="logout" />
+	</form>
 </body>
 </html>

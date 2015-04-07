@@ -3,15 +3,22 @@ package com.connexions.models;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.connexions.models.multi.Skill;
+import com.connexions.models.profile.ClubsAndSocs;
+import com.connexions.models.profile.Education;
+import com.connexions.models.profile.Experience;
+
 public class Profile {
 	private int id;
 	private String first_name;
 	private String last_name;
 	private String position;
 	private String institution;
+	private String summary;	
     private List<Education> educationList = new ArrayList<Education>();
+    private List<ClubsAndSocs> clubsAndSocsList = new ArrayList<ClubsAndSocs>();
     private List<Experience> experienceList = new ArrayList<Experience>();
-    private List<Skills> skillList = new ArrayList<Skills>();
+    private List<Skill> skillList = new ArrayList<Skill>();
     
 	public int getId() {
 		return id;
@@ -43,10 +50,10 @@ public class Profile {
 	public void setExperienceList(List<Experience> experienceList) {
 		this.experienceList = experienceList;
 	}
-	public List<Skills> getSkillList() {
+	public List<Skill> getSkillList() {
 		return skillList;
 	}
-	public void setSkillList(List<Skills> skillList) {
+	public void setSkillList(List<Skill> skillList) {
 		this.skillList = skillList;
 	}
 	public String getPosition() {
@@ -60,5 +67,17 @@ public class Profile {
 	}
 	public void setInstitution(String institution) {
 		this.institution = institution;
+	}
+	public String getSummary() {
+		return summary;
+	}
+	public void setSummary(String summary) {
+		this.summary = summary;
+	}
+	public List<ClubsAndSocs> getClubsAndSocsList() {
+		return clubsAndSocsList;
+	}
+	public void setClubsAndSocsList(List<ClubsAndSocs> clubsAndSocsList) {
+		this.clubsAndSocsList = clubsAndSocsList;
 	}
 }

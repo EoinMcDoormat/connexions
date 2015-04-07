@@ -1,16 +1,16 @@
-package com.connexions.models;
+package com.connexions.models.profile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Education {
-	private int id;
-	private String institution, level, qualification, fieldOfStudy, start, end, grade, description;
+	private int id, start, end;
+	private String institution, level, qualification, fieldOfStudy, grade, description;
 	private List<Results> resultList = new ArrayList<Results>();
 	
 	public Education(int id, String institution, String level,
-			String qualification, String fieldOfStudy, String start,
-			String end, String grade, String description,
+			String qualification, String fieldOfStudy, int start,
+			int end, String grade, String description,
 			List<Results> resultList) {
 		super();
 		this.id = id;
@@ -25,6 +25,10 @@ public class Education {
 		this.resultList = resultList;
 	}
 	
+	public Education() {
+		// TODO Auto-generated constructor stub
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -55,16 +59,16 @@ public class Education {
 	public void setFieldOfStudy(String fieldOfStudy) {
 		this.fieldOfStudy = fieldOfStudy;
 	}
-	public String getStart() {
+	public int getStart() {
 		return start;
 	}
-	public void setStart(String start) {
+	public void setStart(int start) {
 		this.start = start;
 	}
-	public String getEnd() {
+	public int getEnd() {
 		return end;
 	}
-	public void setEnd(String end) {
+	public void setEnd(int end) {
 		this.end = end;
 	}
 	public String getGrade() {

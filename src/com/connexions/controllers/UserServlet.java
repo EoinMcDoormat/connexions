@@ -73,7 +73,7 @@ public class UserServlet extends HttpServlet {
 			if (user.isValid()) {
 				HttpSession session = request.getSession(true);
 				session.setAttribute("currentSessionUser", user);
-				response.sendRedirect("home.jsp");
+				response.sendRedirect("walls");
 			} else
 				response.sendRedirect("login.jsp?invalidLogin");
 
