@@ -18,7 +18,7 @@ public class WallDAO {
 		String searchQuery = "SELECT walls.id, walls.user_id, profiles.first_name, profiles.last_name, walls.status, walls.created FROM walls JOIN users ON walls.user_id=users.id JOIN profiles ON profiles.user_id=users.id WHERE walls.user_id="
 				+ user_id
 				+ " OR walls.user_id IN (SELECT 2nd_user_id FROM friends WHERE 1st_user_id ="
-				+ user_id + " AND confirmed=1)";
+				+ user_id + " AND confirmed=1) ORDER BY walls.created DESC";
 
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 
@@ -62,5 +62,13 @@ public class WallDAO {
 			}
 		}
 		return commentList;
+	}
+
+	public static void addStatus(int id, String status) {
+		String addstatus = "INSERT INTO walls VALUES(NULL, " +id +", '" +status +"', NOW(), NULL)";
+		System.out.println(addstatus);
+		int answer = JDBCConnectionManager.updateDatabase(addstatus);
+
+		
 	}
 }

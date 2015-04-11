@@ -9,7 +9,7 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="604.49634"
+   width="1439.1074"
    height="666.95862"
    id="svg2"
    version="1.1"
@@ -24,11 +24,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.5"
-     inkscape:cx="12.765302"
-     inkscape:cy="361.67895"
+     inkscape:zoom="0.35355339"
+     inkscape:cx="726.10331"
+     inkscape:cy="376.96359"
      inkscape:document-units="px"
-     inkscape:current-layer="g3489"
+     inkscape:current-layer="layer2"
      showgrid="false"
      inkscape:window-width="1309"
      inkscape:window-height="744"
@@ -57,7 +57,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="Layer"
-     transform="translate(-86.626828,-159.22143)">
+     transform="translate(453.57922,-159.22143)">
     <g
        id="g3471" />
     <g
@@ -72,5 +72,33 @@
          id="path3369"
          inkscape:connector-curvature="0" />
     </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="486.62683"
+       y="556.18005"
+       id="text2986"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2988"
+         x="486.62683"
+         y="556.18005"
+         style="font-size:250px">ions</tspan><tspan
+         sodipodi:role="line"
+         x="486.62683"
+         y="868.68005"
+         id="tspan2990" /></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="-467.37317"
+       y="556.18005"
+       id="text2992"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         x="-467.37317"
+         y="556.18005"
+         id="tspan2996"
+         style="font-size:250px">conne</tspan></text>
   </g>
 </svg>

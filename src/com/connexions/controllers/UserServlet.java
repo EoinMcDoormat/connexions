@@ -26,7 +26,7 @@ public class UserServlet extends HttpServlet {
 		if(action.equals("logout")) {
 			logout(request, response);
 		}
-		else if (action.equals("login")) {
+		else if (action.equals("Sign in")) {
 			login(username, password, request, response);
 		} else if (action.equals("register")) {
 			register(username, password, request, response);

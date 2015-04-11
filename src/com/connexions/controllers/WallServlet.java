@@ -40,8 +40,17 @@ public class WallServlet extends HttpServlet {
 	
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, java.io.IOException {
+		
+		HttpSession session = request.getSession(true);
+		User user = new User();
+		user = (User) session.getAttribute("currentSessionUser");
+		int id = user.getId();
+		String status = request.getParameter("status");
 
-		response.sendRedirect("index.jsp");
+		WallDAO.addStatus(id, status);
+		
+
+		response.sendRedirect("walls");
 	}	
 
 }
