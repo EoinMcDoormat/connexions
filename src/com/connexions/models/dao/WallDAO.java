@@ -65,10 +65,14 @@ public class WallDAO {
 	}
 
 	public static void addStatus(int id, String status) {
-		String addstatus = "INSERT INTO walls VALUES(NULL, " +id +", '" +status +"', NOW(), NULL)";
+		String addstatus = "INSERT INTO walls VALUES(NULL, " +id +", \"" +status +"\", NOW(), NULL)";
 		System.out.println(addstatus);
 		int answer = JDBCConnectionManager.updateDatabase(addstatus);
+	}
 
-		
+	public static void addComment(int id, String status_id, String comment) {
+		String addcomment = "INSERT INTO walls_comments VALUES(NULL, " +status_id +", " +id +", \"" +comment +"\", NOW())";
+		System.out.println(addcomment);
+		int answer = JDBCConnectionManager.updateDatabase(addcomment);
 	}
 }

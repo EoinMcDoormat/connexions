@@ -1,9 +1,11 @@
 package com.connexions.models;
 
+import com.connexions.models.multi.Institution;
+
 public class Friend {
 	private int id;
-	private String username, firstName, lastName, position, institution;
-	
+	private String username, firstName, lastName, position;
+	private Institution institution;
 	public Friend(int id, String firstName, String lastName){
 		this.id = id;
 		this.firstName = firstName;
@@ -47,11 +49,11 @@ public class Friend {
 		this.position = position;
 	}
 
-	public String getInstitution() {
+	public Institution getInstitution() {
 		return institution;
 	}
 
-	public void setInstitution(String institution) {
+	public void setInstitution(Institution institution) {
 		this.institution = institution;
 	}
 }

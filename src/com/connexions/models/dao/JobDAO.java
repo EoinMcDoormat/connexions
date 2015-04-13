@@ -15,7 +15,7 @@ public class JobDAO {
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		List<Job> jobList = new ArrayList<Job>();
 
-		String searchQuery = "SELECT jobs.id, jobs.user_id, positions, description, created, expired, deleted FROM jobs JOIN jobs_positions ON jobs_positions.id=jobs.position_id; ";
+		String searchQuery = "SELECT jobs.id, jobs.user_id, positions, description, created, expired, deleted FROM jobs JOIN jobs_positions ON jobs_positions.id=jobs.position_id ORDER BY created DESC; ";
 
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 
@@ -31,6 +31,8 @@ public class JobDAO {
 				job.setCreated((Date) (list.get(i).get("created")));
 				job.setExpired((Date) (list.get(i).get("expired")));
 				job.setDeleted((Date) (list.get(i).get("deleted")));
+				int userId = (int) (list.get(i).get("user_id")); 
+				job.setPoster(FriendDAO.getFriend(userId));
 				jobList.add(job);
 			}
 		}

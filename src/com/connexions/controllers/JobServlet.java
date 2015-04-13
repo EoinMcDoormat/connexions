@@ -33,4 +33,16 @@ public class JobServlet extends HttpServlet {
 				.getRequestDispatcher("jobs/index.jsp");
 		view.forward(request, response);
 	}
+	
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, java.io.IOException {
+		
+		List<Job> jobList = new ArrayList<Job>();
+		jobList = JobDAO.getAllJobs();
+		request.setAttribute("jobs", jobList); // set array list		
+		RequestDispatcher view = request
+				.getRequestDispatcher("jobs/edit.jsp");
+		view.forward(request, response);
+	}
+	
 }

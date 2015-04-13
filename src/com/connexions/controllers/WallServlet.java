@@ -46,9 +46,15 @@ public class WallServlet extends HttpServlet {
 		user = (User) session.getAttribute("currentSessionUser");
 		int id = user.getId();
 		String status = request.getParameter("status");
+		String comment = request.getParameter("comment");
+		String status_id = request.getParameter("status_id");
 
+		if(status != null){
 		WallDAO.addStatus(id, status);
-		
+		}
+		else if (comment != null){
+			WallDAO.addComment(id, status_id, comment);			
+		}
 
 		response.sendRedirect("walls");
 	}	

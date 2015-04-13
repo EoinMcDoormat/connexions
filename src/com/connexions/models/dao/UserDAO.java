@@ -35,7 +35,7 @@ public class UserDAO {
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 		String username = user.getUsername();
 		String password = user.getPassword();
-		String searchQuery = "SELECT * FROM users WHERE email='" + username
+		String searchQuery = "SELECT users.id, email, password, profiles.first_name, profiles.last_name FROM users LEFT JOIN profiles ON users.id = profiles.user_id WHERE email='" + username
 				+ "' AND password='" + password + "'";
 
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
@@ -54,6 +54,8 @@ public class UserDAO {
 			user.setId(id);
 			user.setUserName(username);
 			user.setPassword(password);
+			user.setFirstName((String) (list.get(0).get("first_name")));
+			user.setLastName((String) (list.get(0).get("last_name")));			
 			user.setValid(true);
 		}
 		return user;

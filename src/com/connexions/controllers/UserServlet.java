@@ -23,17 +23,14 @@ public class UserServlet extends HttpServlet {
 		String password = request.getParameter("password");
 		String action = request.getParameter("action");
 
-		if(action.equals("logout")) {
-			logout(request, response);
-		}
-		else if (action.equals("Sign in")) {
+		if (action.equals("Sign in")) {
 			login(username, password, request, response);
 		} else if (action.equals("register")) {
 			register(username, password, request, response);
 		}
 	}
 
-	private void logout(HttpServletRequest request, HttpServletResponse response) {
+	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		request.getSession().invalidate();
         try {
 			response.sendRedirect("login.jsp");

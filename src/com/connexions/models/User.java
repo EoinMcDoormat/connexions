@@ -2,8 +2,7 @@ package com.connexions.models;
 
 public class User {
 	private int id;
-	private String username;
-	private String password;
+	private String username, password, firstName, lastName;
 	public boolean valid;
 
 	public User() {
@@ -52,5 +51,22 @@ public class User {
 
 	public void setValid(boolean newValid) {
 		valid = newValid;
-	}	
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
 }

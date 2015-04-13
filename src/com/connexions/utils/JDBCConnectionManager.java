@@ -25,6 +25,7 @@ public class JDBCConnectionManager {
 		Statement stmt = null;
 		int answer = 0;
 		Connection currentCon = null;
+		System.out.println("UPDATE: " +update);
 
 		try {
 			currentCon = JDBCConnectionManager.getConnection();

@@ -7,6 +7,9 @@ import java.util.List;
 
 import com.connexions.models.Profile;
 import com.connexions.models.User;
+import com.connexions.models.multi.ClubSoc;
+import com.connexions.models.multi.Institution;
+import com.connexions.models.multi.Position;
 import com.connexions.models.multi.Skill;
 import com.connexions.models.profile.ClubsAndSocs;
 import com.connexions.models.profile.Education;
@@ -32,7 +35,6 @@ public class ProfileDAO {
 		profile.setClubsAndSocsList(clubsAndSocsList);
 		skillsList = getSkillsProfile(profile.getId());
 		profile.setSkillList(skillsList);
-		
 
 		return profile;
 	}
@@ -43,7 +45,7 @@ public class ProfileDAO {
 		String searchQuery = "SELECT profiles_skills.id, skills.name FROM profiles_skills JOIN skills ON profiles_skills.skill_id=skills.id WHERE profiles_skills.profile_id = "
 				+ profile_id;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
-		
+
 		if (list.isEmpty()) {
 			System.out.println("No profile found");
 
@@ -54,18 +56,18 @@ public class ProfileDAO {
 				skills.setSkill((String) (list.get(i).get("name")));
 				skillsList.add(skills);
 			}
-		}	
-		
+		}
+
 		return skillsList;
 	}
 
 	private static List<ClubsAndSocs> getClubsAndSocsProfile(int profile_id) {
 		List<ClubsAndSocs> clubsAndSocsList = new ArrayList<ClubsAndSocs>();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT profiles_clubsandsocs.id AS id, clubsoc_name, institution, clubsandsocs_positions.name AS position, profiles_clubsandsocs.description AS description FROM profiles_clubsandsocs JOIN clubsandsocs ON clubsoc_id=clubsandsocs.id JOIN clubsandsocs_positions ON clubsandsocs_positions.id=position_id JOIN institutions ON clubsandsocs.institution_id=institutions.id WHERE profiles_clubsandsocs.id = "
+		String searchQuery = "SELECT * FROM profiles_clubsandsocs WHERE profiles_clubsandsocs.profile_id = "
 				+ profile_id;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
-		
+
 		if (list.isEmpty()) {
 			System.out.println("No profile found");
 
@@ -73,15 +75,20 @@ public class ProfileDAO {
 			for (int i = 0; i < list.size(); i++) {
 				ClubsAndSocs clubsandsocs = new ClubsAndSocs();
 				clubsandsocs.setId((int) (list.get(i).get("id")));
-				clubsandsocs.setClubsAndSocsName((String) (list.get(i).get("clubsoc_name")));
-				clubsandsocs.setInstitution((String) (list.get(i).get("institution")));
-				clubsandsocs.setPosition((String) (list.get(i).get("name")));
-				clubsandsocs.setDescription((String) (list.get(i).get("description")));
-				System.out.println("NAME: " +clubsandsocs.getClubsAndSocsName());
+				int clubSocId = (int) (list.get(i).get("clubsoc_id"));
+				ClubSoc clubsoc = MultiDAO.getClubSoc(clubSocId);
+				clubsandsocs.setClubsoc(clubsoc);
+				int positionId = (int) (list.get(i).get("position_id"));
+				Position position = MultiDAO.getAcademicPosition(positionId);
+				clubsandsocs.setPosition(position);
+				clubsandsocs.setDescription((String) (list.get(i)
+						.get("description")));
+				clubsandsocs.setStart((Date) (list.get(i).get("start")));
+				clubsandsocs.setEnd((Date) (list.get(i).get("end")));
 				clubsAndSocsList.add(clubsandsocs);
 			}
-		}	
-		
+		}
+
 		return clubsAndSocsList;
 	}
 
@@ -173,7 +180,8 @@ public class ProfileDAO {
 	public static Profile getPersonalProfile(int user_id) {
 		Profile profile = new Profile();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT * FROM profiles WHERE user_id=" + user_id;
+		String searchQuery = "SELECT profiles.id, profiles.first_name, profiles.last_name, profiles.summary, qualifications.qualification, institutions.institution FROM profiles JOIN qualifications ON profiles.positions_id = qualifications.id JOIN institutions ON profiles.institution_id = institutions.id WHERE user_id="
+				+ user_id;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 
 		if (list.isEmpty()) {
@@ -184,7 +192,49 @@ public class ProfileDAO {
 			profile.setFirst_name((String) (list.get(0).get("first_name")));
 			profile.setLast_name((String) (list.get(0).get("last_name")));
 			profile.setSummary((String) (list.get(0).get("summary")));
+			profile.setPosition((String) (list.get(0).get("qualification")));
+			profile.setInstitution((String) (list.get(0).get("institution")));
 		}
 		return profile;
+	}
+
+	public static void updatePersonalProfile(int id, String firstName,
+			String lastName, String summary, int position, int institution) {
+		String updatePersonalProfile = "UPDATE profiles SET first_name=\""
+				+ firstName + "\", last_name=\"" + lastName + "\", summary=\""
+				+ summary + "\", positions_id=" + position
+				+ ", institution_id=" + institution + " WHERE user_id=" + id;
+		int answer = JDBCConnectionManager
+				.updateDatabase(updatePersonalProfile);
+		
+		if (answer==0){
+			String addPersonalProfile = "INSERT INTO profiles VALUES(NULL," +id +", \"" +firstName +"\", \""
+					+lastName +"\", \"" +summary +"\", " +position +", " +institution +")";
+			answer = JDBCConnectionManager.updateDatabase(addPersonalProfile);
+		}
+	}
+
+	public static void updateProfileClubsAndSocs(int profileClubSocId,
+			int clubsoc, int position, String description, int start, int end) {
+		
+		String strEnd = String.valueOf(end);
+		
+		if(end==0){
+			strEnd = "null";
+		}
+		
+		String updateProfileClubsAndSocs = "UPDATE profiles_clubsandsocs SET clubsoc_id="
+				+ clubsoc + ", position_id=" + position + ", description=\""
+				+ description + "\", start=" +start +", end=" +strEnd +" WHERE id=" + profileClubSocId;
+		
+		int answer = JDBCConnectionManager
+				.updateDatabase(updateProfileClubsAndSocs);
+		
+//		if (answer==0){
+//			String addPersonalProfile = "INSERT INTO profiles VALUES(NULL," +id +", \"" +firstName +"\", \""
+//					+lastName +"\", \"" +summary +"\", " +position +", " +institution +")";
+//			answer = JDBCConnectionManager.updateDatabase(addPersonalProfile);
+//		}
+		
 	}
 }

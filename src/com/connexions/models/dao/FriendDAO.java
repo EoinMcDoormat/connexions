@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.connexions.models.Friend;
+import com.connexions.models.multi.Institution;
 import com.connexions.models.multi.Skill;
 import com.connexions.utils.JDBCConnectionManager;
 
@@ -15,7 +16,7 @@ public class FriendDAO {
 		Friend friend = new Friend();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
 
-		String searchQuery = "SELECT users.id, profiles.first_name, profiles.last_name, qualification, institution FROM users JOIN profiles ON users.id=profiles.user_id JOIN qualifications ON qualifications.id = profiles.positions_id JOIN institutions ON institutions.id=profiles.institution_id WHERE users.id ="
+		String searchQuery = "SELECT users.id, profiles.first_name, profiles.last_name, qualification, institution_id FROM users JOIN profiles ON users.id=profiles.user_id JOIN qualifications ON qualifications.id = profiles.positions_id WHERE users.id ="
 				+ user_id;
 		System.out.println("Query: " + searchQuery);
 
@@ -25,7 +26,9 @@ public class FriendDAO {
 		friend.setFirstName((String) (list.get(0).get("first_name")));
 		friend.setLastName((String) (list.get(0).get("last_name")));
 		friend.setPosition((String) (list.get(0).get("qualification")));
-		friend.setInstitution((String) (list.get(0).get("institution")));
+		int institutionId = (int) (list.get(0).get("institution_id"));
+		Institution institution = MultiDAO.getInstitution(institutionId);
+		friend.setInstitution(institution);
 
 		return friend;
 	}
@@ -33,7 +36,7 @@ public class FriendDAO {
 	public static List<Friend> getAllFriends(int id) {
 		List<Friend> friendList = new ArrayList<Friend>();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT friends.2nd_user_id, profiles.first_name, profiles.last_name, qualification, institution FROM friends JOIN users ON friends.2nd_user_id = users.id JOIN profiles ON users.id=profiles.user_id JOIN qualifications ON qualifications.id = profiles.positions_id JOIN institutions ON institutions.id=profiles.institution_id WHERE confirmed = 1 AND deleted IS NULL AND 1st_user_id ="
+		String searchQuery = "SELECT friends.2nd_user_id, profiles.first_name, profiles.last_name, qualification, institution_id FROM friends JOIN users ON friends.2nd_user_id = users.id JOIN profiles ON users.id=profiles.user_id JOIN qualifications ON qualifications.id = profiles.positions_id WHERE confirmed = 1 AND deleted IS NULL AND 1st_user_id ="
 				+ id;
 		System.out.println("Query: " + searchQuery);
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
@@ -49,7 +52,9 @@ public class FriendDAO {
 				friend.setFirstName((String) (list.get(i).get("first_name")));
 				friend.setLastName((String) (list.get(i).get("last_name")));
 				friend.setPosition((String) (list.get(i).get("qualification")));
-				friend.setInstitution((String) (list.get(i).get("institution")));
+				int institutionId = (int) (list.get(i).get("institution_id"));
+				Institution institution = MultiDAO.getInstitution(institutionId);
+				friend.setInstitution(institution);
 				friendList.add(friend);
 			}
 		}

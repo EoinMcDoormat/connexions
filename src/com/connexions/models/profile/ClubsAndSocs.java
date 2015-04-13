@@ -1,39 +1,63 @@
 package com.connexions.models.profile;
 
+import java.sql.Date;
+
+import com.connexions.models.multi.ClubSoc;
+import com.connexions.models.multi.Position;
+
 public class ClubsAndSocs {
 	private int id;
-	private String clubsAndSocsName, position, institution, description;
-	
+	private ClubSoc clubsoc;
+	private Position position;
+	private String description;
+	private Date start, end;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getPosition() {
-		return position;
-	}
-	public void setPosition(String position) {
-		this.position = position;
-	}
-	public String getInstitution() {
-		return institution;
-	}
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getClubsAndSocsName() {
-		return clubsAndSocsName;
+
+	public ClubSoc getClubsoc() {
+		return clubsoc;
 	}
-	public void setClubsAndSocsName(String clubsAndSocsName) {
-		this.clubsAndSocsName = clubsAndSocsName;
+
+	public void setClubsoc(ClubSoc clubsoc) {
+		this.clubsoc = clubsoc;
 	}
-	
+
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
+
+	public Position getPosition() {
+		return position;
+	}
+
+	public void setPosition(Position position) {
+		this.position = position;
+	}
+
 }
