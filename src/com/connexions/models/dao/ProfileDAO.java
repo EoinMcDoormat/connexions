@@ -79,7 +79,7 @@ public class ProfileDAO {
 				ClubSoc clubsoc = MultiDAO.getClubSoc(clubSocId);
 				clubsandsocs.setClubsoc(clubsoc);
 				int positionId = (int) (list.get(i).get("position_id"));
-				Position position = MultiDAO.getAcademicPosition(positionId);
+				Position position = MultiDAO.getClubSocPosition(positionId);
 				clubsandsocs.setPosition(position);
 				clubsandsocs.setDescription((String) (list.get(i)
 						.get("description")));
@@ -180,7 +180,7 @@ public class ProfileDAO {
 	public static Profile getPersonalProfile(int user_id) {
 		Profile profile = new Profile();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT profiles.id, profiles.first_name, profiles.last_name, profiles.summary, qualifications.qualification, institutions.institution FROM profiles JOIN qualifications ON profiles.positions_id = qualifications.id JOIN institutions ON profiles.institution_id = institutions.id WHERE user_id="
+		String searchQuery = "SELECT profiles.id, profiles.first_name, profiles.last_name, profiles.summary, qualifications.qualification, institutions.institution, private FROM profiles JOIN qualifications ON profiles.positions_id = qualifications.id JOIN institutions ON profiles.institution_id = institutions.id WHERE user_id="
 				+ user_id;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 
@@ -194,6 +194,7 @@ public class ProfileDAO {
 			profile.setSummary((String) (list.get(0).get("summary")));
 			profile.setPosition((String) (list.get(0).get("qualification")));
 			profile.setInstitution((String) (list.get(0).get("institution")));
+			profile.setPrivacy((boolean)(list.get(0).get("private")));;
 		}
 		return profile;
 	}
@@ -206,35 +207,73 @@ public class ProfileDAO {
 				+ ", institution_id=" + institution + " WHERE user_id=" + id;
 		int answer = JDBCConnectionManager
 				.updateDatabase(updatePersonalProfile);
-		
-		if (answer==0){
-			String addPersonalProfile = "INSERT INTO profiles VALUES(NULL," +id +", \"" +firstName +"\", \""
-					+lastName +"\", \"" +summary +"\", " +position +", " +institution +")";
+
+		if (answer == 0) {
+			String addPersonalProfile = "INSERT INTO profiles VALUES(NULL,"
+					+ id + ", \"" + firstName + "\", \"" + lastName + "\", \""
+					+ summary + "\", " + position + ", " + institution + ")";
 			answer = JDBCConnectionManager.updateDatabase(addPersonalProfile);
 		}
 	}
 
 	public static void updateProfileClubsAndSocs(int profileClubSocId,
 			int clubsoc, int position, String description, int start, int end) {
-		
+
 		String strEnd = String.valueOf(end);
-		
-		if(end==0){
+
+		if (end == 0) {
 			strEnd = "null";
 		}
-		
+
 		String updateProfileClubsAndSocs = "UPDATE profiles_clubsandsocs SET clubsoc_id="
-				+ clubsoc + ", position_id=" + position + ", description=\""
-				+ description + "\", start=" +start +", end=" +strEnd +" WHERE id=" + profileClubSocId;
-		
+				+ clubsoc
+				+ ", position_id="
+				+ position
+				+ ", description=\""
+				+ description
+				+ "\", start="
+				+ start
+				+ ", end="
+				+ strEnd
+				+ " WHERE id=" + profileClubSocId;
+
 		int answer = JDBCConnectionManager
 				.updateDatabase(updateProfileClubsAndSocs);
+	}
+
+	public static void addProfileClubsAndSocs(int profileId, int clubsoc,
+			int position, String description, int clubSocStart, int clubSocEnd) {
+
+		String strEnd = String.valueOf(clubSocEnd);
+
+		if (clubSocEnd == 0) {
+			strEnd = "null";
+		}
+		String addProfileClubsAndSocs = "INSERT INTO profiles_clubsandsocs VALUES(NULL, "
+				+ profileId
+				+ ", "
+				+ clubsoc
+				+ ", "
+				+ position
+				+ ", \""
+				+ description + "\"," + clubSocStart + ", " + strEnd +")";
+		int answer = JDBCConnectionManager
+				.updateDatabase(addProfileClubsAndSocs);
+	}
+
+	public static void delProfileClubsAndSocs(int profileClubSocId) {
+		// TODO Auto-generated method stub
+		String delProfileClubsAndSocs = "DELETE FROM profiles_clubsandsocs WHERE id =" +profileClubSocId;
 		
-//		if (answer==0){
-//			String addPersonalProfile = "INSERT INTO profiles VALUES(NULL," +id +", \"" +firstName +"\", \""
-//					+lastName +"\", \"" +summary +"\", " +position +", " +institution +")";
-//			answer = JDBCConnectionManager.updateDatabase(addPersonalProfile);
-//		}
+		int answer = JDBCConnectionManager
+				.updateDatabase(delProfileClubsAndSocs);
 		
+	}
+
+	public static void updatePrivacy(int id, int privacySetting) {
+		// TODO Auto-generated method stub
+		String updatePrivacy = "UPDATE profiles SET private=" +privacySetting +" WHERE id=" +id;
+		int answer = JDBCConnectionManager
+				.updateDatabase(updatePrivacy);
 	}
 }

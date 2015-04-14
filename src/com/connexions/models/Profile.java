@@ -19,6 +19,7 @@ public class Profile {
     private List<ClubsAndSocs> clubsAndSocsList = new ArrayList<ClubsAndSocs>();
     private List<Experience> experienceList = new ArrayList<Experience>();
     private List<Skill> skillList = new ArrayList<Skill>();
+    private boolean privacy;
     
 	public int getId() {
 		return id;
@@ -79,5 +80,11 @@ public class Profile {
 	}
 	public void setClubsAndSocsList(List<ClubsAndSocs> clubsAndSocsList) {
 		this.clubsAndSocsList = clubsAndSocsList;
+	}
+	public boolean isPrivacy() {
+		return privacy;
+	}
+	public void setPrivacy(boolean privacy) {
+		this.privacy = privacy;
 	}
 }

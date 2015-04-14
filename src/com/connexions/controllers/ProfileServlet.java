@@ -64,6 +64,7 @@ public class ProfileServlet extends HttpServlet {
 		User user = new User();
 		user = (User) session.getAttribute("currentSessionUser");
 		int id = user.getId();
+		Profile profile = ProfileDAO.getPersonalProfile(id);
 
 		if (request.getParameter("personalProfile") != null) {
 		    
@@ -84,6 +85,27 @@ public class ProfileServlet extends HttpServlet {
 		    String description = request.getParameter("clubSocDesc");
 		    
 		    ProfileDAO.updateProfileClubsAndSocs(profileClubSocId, clubsoc, position, description, clubSocStart, clubSocEnd);
+		}
+		if (request.getParameter("clubsAndSocsDel") != null) {
+		    int profileClubSocId = Integer.parseInt(request.getParameter("profileClubSocId"));
+		    
+		    ProfileDAO.delProfileClubsAndSocs(profileClubSocId);
+		}
+		
+		if (request.getParameter("clubsAndSocsNew") != null) {
+		    int clubsoc = Integer.parseInt(request.getParameter("clubSoc"));
+		    int position = Integer.parseInt(request.getParameter("clubSocPosition"));
+		    int clubSocStart = Integer.parseInt(request.getParameter("clubSocStart"));
+		    int clubSocEnd = Integer.parseInt(request.getParameter("clubSocEnd"));
+		    String description = request.getParameter("clubSocDesc");		    
+		    
+		    ProfileDAO.addProfileClubsAndSocs(profile.getId(), clubsoc, position, description, clubSocStart, clubSocEnd);
+		}
+		if (request.getParameter("privacyForm") != null) {
+			System.out.println("PRIVACY CHANGED");
+			int privacySetting = (request.getParameter("privacyForm")).equals("true") ? 1 : 0;
+			
+			ProfileDAO.updatePrivacy(profile.getId(), privacySetting);
 		}
 		
 		

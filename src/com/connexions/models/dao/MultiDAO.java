@@ -68,23 +68,23 @@ public class MultiDAO {
 		}
 		return positionList;
 	}
-	
+
 	public static Position getAcademicPosition(int positionId) {
 		Position position = new Position();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT * FROM qualifications WHERE id=" +positionId;
+		String searchQuery = "SELECT * FROM qualifications WHERE id="
+				+ positionId;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 
 		if (list.isEmpty()) {
 			System.out.println("No qualifications found");
 
 		} else {
-				position.setId((int) (list.get(0).get("id")));
-				position.setPosition((String) (list.get(0).get("qualification")));
+			position.setId((int) (list.get(0).get("id")));
+			position.setPosition((String) (list.get(0).get("qualification")));
 		}
 		return position;
 	}
-	
 
 	public static List getAllClubPositions() {
 		List<Position> positionList = new ArrayList<Position>();
@@ -104,6 +104,26 @@ public class MultiDAO {
 			}
 		}
 		return positionList;
+	}
+
+	public static Position getClubSocPosition(int position_id) {
+		Position position = new Position();
+		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
+		String searchQuery = "SELECT * FROM clubsandsocs_positions WHERE id="
+				+ position_id;
+		list = JDBCConnectionManager.queryDatabase(searchQuery);
+
+		if (list.isEmpty()) {
+			System.out.println("No positions found");
+
+		} else {
+
+			position.setId((int) (list.get(0).get("id")));
+			position.setPosition((String) (list.get(0).get("name")));
+
+		}
+
+		return position;
 	}
 
 	public static List getAllAcademicInstitutions() {

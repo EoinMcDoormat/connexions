@@ -82,14 +82,14 @@
 									</div>
 									<div class="small-9 medium-10 columns">
 										<div class="panel comment-small">
-											<h5>
+											<h6>
 												<a
 													href="profiles/view/<c:out value="${comments.friend.id}"/>">
 													<c:out value="${comments.friend.firstName}" /> <c:out
 														value="${comments.friend.lastName}" />
 												</a><small> <c:out value="${comments.created}" /></small>
-											</h5>
-											<h6>
+											</h6>
+											<h6 class="h7">
 												<c:out value="${comments.comment}" />
 											</h6>
 										</div>
@@ -97,7 +97,7 @@
 								</div>
 							</div>
 						</c:forEach>
-						<div class="large-9 columns right">
+						<div class="large-10 columns right">
 							<form action="walls" method="post" autocomplete='off'>
 								<input type="hidden" name="status_id" value="${wall.id}">
 								<div class="row collapse">

@@ -60,6 +60,7 @@
 										placeholder="Last name" value="${profile.last_name}" />
 									</label>
 								</div>
+
 							</div>
 							<div class="row">
 								<div class="large-12 columns">
@@ -158,7 +159,12 @@
 								<form action="profiles" name="clubSoc" method="post">
 									<input type="hidden" name="profileClubSocId"
 										value="<c:out value="${clubsandsocs.id}" />">
-									<fieldset>    <legend>Edit Records</legend>
+									<fieldset>
+										<legend>
+											<c:out value="${clubsandsocs.position.position}" />
+											at
+											<c:out value="${clubsandsocs.clubsoc.name}" />
+										</legend>
 										<div class="row">
 											<div class="large-6 columns">
 												<label>Position <select name="clubSocPosition">
@@ -252,70 +258,78 @@
 											</div>
 										</div>
 										<div class="row">
-											<input type="submit" value="Save changes" name="clubsAndSocs"
-												class="radius button right">
+											<div class="large-12 columns text-right">
+												<input type="submit" value="Delete" name="clubsAndSocsDel"
+													class="radius button"> <input type="submit"
+													value="Save changes" name="clubsAndSocs"
+													class="radius button">
+											</div>
 										</div>
 									</fieldset>
 								</form>
 							</c:forEach>
-								<form action="profiles" name="clubSocNew" method="post">
-									<fieldset class="new">
-										<div class="row">
-											<div class="large-6 columns">
-												<label>Position <select name="clubSocPosition">
-														<c:forEach var="position" items="${clubPositions}">
-																<option value="<c:out value="${position.id}" />">
-																		<c:out value="${position.position}" />
-														</c:forEach>
-												</select>
-												</label>
-											</div>
-											<div class="large-6 columns">
-												<label>Club/Society <select name="clubSoc">
-														<c:forEach var="clubsoc" items="${clubsocs}">
-																	<option value="<c:out value="${clubsoc.id}" />">
-																		<c:out value="${clubsoc.name}" />																
-														</c:forEach>
-												</select>
-												</label>
-											</div>
+							<form action="profiles" name="clubSocNew" method="post">
+								<fieldset class="new">
+									<legend>Add new</legend>
+									<div class="row">
+										<div class="large-6 columns">
+											<label>Position <select name="clubSocPosition">
+													<c:forEach var="position" items="${clubPositions}">
+														<option value="<c:out value="${position.id}" />">
+															<c:out value="${position.position}" />
+													</c:forEach>
+											</select>
+											</label>
 										</div>
-										<div class="row">
-											<div class="large-3 columns">
-												<label>Start <select name="clubSocStart">
-														<c:forEach begin="1990" end="${year}" var="i">
-																	<option value="${i}">${i}</option>
-														</c:forEach>
-												</select>
-												</label>
-											</div>
-											<div class="large-3 columns">
-												<label>End <select name="clubSocEnd">
-														<c:set var="csSelected" value="false" />
-														<c:forEach begin="1990" end="${year}" var="i">
-																	<option value="${i}">${i}</option>															
-														</c:forEach>
-															<option value="0" selected>-</option>														
-												</select>
-												</label>
-											</div>
-											<div class="large-6 columns"></div>
+										<div class="large-6 columns">
+											<label>Club/Society <select name="clubSoc">
+													<c:forEach var="clubsoc" items="${clubsocs}">
+														<option value="<c:out value="${clubsoc.id}" />">
+															<c:out value="${clubsoc.name}" />
+													</c:forEach>
+											</select>
+											</label>
 										</div>
+									</div>
+									<div class="row">
+										<div class="large-3 columns">
+											<label>Start <select name="clubSocStart">
+													<c:forEach begin="1990" end="${year}" var="i">
+														<option value="${i}">${i}</option>
+													</c:forEach>
+											</select>
+											</label>
+										</div>
+										<div class="large-3 columns">
+											<label>End <select name="clubSocEnd">
+													<c:set var="csSelected" value="false" />
+													<c:forEach begin="1990" end="${year}" var="i">
+														<option value="${i}">${i}</option>
+													</c:forEach>
+													<option value="0" selected>-</option>
+											</select>
+											</label>
+										</div>
+										<div class="large-6 columns"></div>
+									</div>
 
-										<div class="row">
-											<div class="large-12 columns">
-												<label>Summary <textarea name="clubSocDesc"
-														placeholder="Brief description of activities in club/soc"><c:out
-															value="${clubsandsocs.description}" /></textarea>
-												</label>
-											</div>
+									<div class="row">
+										<div class="large-12 columns">
+											<label>Summary <textarea name="clubSocDesc"
+													placeholder="Brief description of activities in club/soc"><c:out
+														value="${clubsandsocs.description}" /></textarea>
+											</label>
 										</div>
-										<div class="row">
-											<input type="submit" value="Add new" name="clubsAndSocs"
-												class="radius button success right">
+									</div>
+									<div class="row">
+										<div class="large-12 columns text-right">
+
+											<input type="submit" value="Add new" name="clubsAndSocsNew"
+												class="radius button success">
 										</div>
-									</fieldset>
-								</form>
+									</div>
+								</fieldset>
+							</form>
 						</section>
 						<section role="tabpanel" aria-hidden="true" class="content"
 							id="panel2-3">
@@ -355,16 +369,24 @@
 						<h5>Privacy</h5>
 						<div class="row">
 							<div class="small-4 medium-4 large-4 columns">
-								<i class="fi-lock right"></i>
+								<i class="fi-unlock right"></i>
 							</div>
+
+
+
 							<div class="small-4 medium-4 large-4 columns">
 								<div class="switch radius">
-									<input id="exampleCheckboxSwitch" type="checkbox"> <label
-										for="exampleCheckboxSwitch"></label>
+									<form  name="privacyForm" action="profiles" method="post">
+									  <input type="hidden" name="privacyForm" value="<c:out value="${not profile.privacy}" />"/>
+										<input name="privacyChkBx" id="exampleCheckboxSwitch" type="checkbox"
+											onclick="document.privacyForm.submit();"
+											<c:if test="${profile.privacy}">checked</c:if>> <label
+											for="exampleCheckboxSwitch"></label>
+									</form>
 								</div>
 							</div>
 							<div class="small-4 medium-4 large-4 columns">
-								<i class="fi-unlock left"></i>
+								<i class="fi-lock left"></i>
 							</div>
 						</div>
 					</div>
