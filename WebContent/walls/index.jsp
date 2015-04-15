@@ -34,11 +34,11 @@
 	<div class="row">
 		<div class="large-12 columns">
 			<div class="large-8 columns">
-				<h1>
+				<h2>
 					Welcome,
 					<c:out value="${currentSessionUser.firstName}" />
 					<c:out value="${currentSessionUser.lastName}" />!
-				</h1>
+				</h2>
 				<div class="radius panel">
 					<div class="row">
 						<form action="walls" method="post">

@@ -61,15 +61,15 @@
 				<c:forEach var="friends" items="${friends}">
 					
 					<div class="large-6 small-6 columns">
-						<fieldset><legend><a href="profiles/views/<c:out value="${friends.id}" />">
-									<c:out value="${friends.firstName}" />
-									<c:out value="${friends.lastName}" /></a></legend>
+						<fieldset>
 							<div class="large-4 columns">
 								<a href="profiles/views/<c:out value="${friends.id}" />"><img class="photo-connexions"
 									src="img/profiles/<c:out value="${friends.id}" />.jpg" /></a>
 							</div>
 
 							<div class="large-8 columns">
+							<h4><a href="profiles/views/<c:out value="${friends.id}" />">
+								<c:out value="${friends.firstName}" /> <c:out value="${friends.lastName}" /></a></h4>
 								<h5><strong> <c:out
 												value="${friends.position}" /></strong> <i>in</i>
 									 <c:out value="${friends.institution.institution}" />

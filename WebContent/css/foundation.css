@@ -1,3 +1,7 @@
+.results-input {
+	vertical-align:top;
+}
+
 .new {
 	background: #D8D8D8;
 }
@@ -32,7 +36,7 @@ table {
 }
 
 .login {
-	margin-top: 100px;
+	margin-top: 150px;
 }
 
 .status {

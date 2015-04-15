@@ -1,9 +1,11 @@
 package com.connexions.models.multi;
 
+
 public class Location {
 
 	private int id;
-	private String location, country;
+	private String location; 
+	private Country country;
 	
 	public int getId() {
 		return id;
@@ -17,10 +19,11 @@ public class Location {
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	public String getCountry() {
+	public Country getCountry() {
 		return country;
 	}
-	public void setCountry(String country) {
+	public void setCountry(Country country) {
 		this.country = country;
 	}
+	
 }

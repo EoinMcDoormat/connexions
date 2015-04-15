@@ -95,7 +95,7 @@ public class ProfileDAO {
 	private static List<Experience> getExperienceProfile(int profile_id) {
 		List<Experience> experienceList = new ArrayList<Experience>();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT profiles_experience.id, company, positions, location, description, start, end FROM profiles_experience JOIN companies ON company_id=companies.id JOIN jobs_positions ON jobs_positions.id=position_id JOIN locations ON locations.id=profiles_experience.location_id WHERE profiles_experience.profile_id="
+		String searchQuery = "SELECT * FROM profiles_experience WHERE profiles_experience.profile_id="
 				+ profile_id;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 
@@ -106,9 +106,16 @@ public class ProfileDAO {
 			for (int i = 0; i < list.size(); i++) {
 				Experience experience = new Experience();
 				experience.setId((int) (list.get(i).get("id")));
-				experience.setCompany((String) (list.get(i).get("company")));
-				experience.setPosition((String) (list.get(i).get("positions")));
-				experience.setLocation((String) (list.get(i).get("location")));
+				
+				int companyId = (int) (list.get(i).get("company_id"));
+				experience.setCompany(MultiDAO.getCompany(companyId));
+				
+				int positionId = (int) (list.get(i).get("position_id"));
+				experience.setPosition(MultiDAO.getPosition(positionId));
+				
+				int locationId = (int) (list.get(i).get("location_id"));
+				experience.setLocation(MultiDAO.getLocation(locationId));
+				
 				experience.setDescription((String) (list.get(i)
 						.get("description")));
 				experience.setStart((Date) (list.get(i).get("start")));
@@ -145,8 +152,7 @@ public class ProfileDAO {
 	private static List getAcademicProfile(int profile_id) {
 		List<Education> educationList = new ArrayList<Education>();
 		List<HashMap<String, Object>> list = new ArrayList<HashMap<String, Object>>();
-		String searchQuery = "SELECT profiles_academia.id AS id, institution, levels.name AS level, qualification, field_of_study, start, end, grade, description FROM profiles_academia JOIN institutions ON institutions.id = institution_id JOIN levels ON levels.id = level_id JOIN qualifications ON qualifications.id = qualification_id WHERE profile_id ="
-				+ profile_id;
+		String searchQuery = "SELECT * FROM profiles_academia WHERE profile_id =" + profile_id;
 		list = JDBCConnectionManager.queryDatabase(searchQuery);
 		System.out.println("LIST SIZE " + list.size());
 		if (list.isEmpty()) {
@@ -157,13 +163,19 @@ public class ProfileDAO {
 				Education education = new Education();
 				List<Results> resultsList = new ArrayList<Results>();
 				education.setId((int) (list.get(i).get("id")));
-				education.setInstitution((String) (list.get(i)
-						.get("institution")));
-				education.setLevel((String) (list.get(i).get("level")));
-				education.setQualification((String) (list.get(i)
-						.get("qualification")));
-				education.setFieldOfStudy((String) (list.get(i)
-						.get("field_of_study")));
+				
+				int qualificationId = ((int) (list.get(i)
+						.get("qualification_id")));
+				education.setQualification(MultiDAO.getQualification(qualificationId));
+				
+				int institutionId = ((int) (list.get(i)
+						.get("institution_id")));
+				education.setInstitution(MultiDAO.getInstitution(institutionId));
+				
+				int fieldId = ((int) (list.get(i)
+						.get("field_of_study_id")));
+				education.setFieldOfStudy(MultiDAO.getFieldOfStudy(fieldId));
+				
 				education.setStart((int) (list.get(i).get("start")));
 				education.setEnd((int) (list.get(i).get("end")));
 				education.setGrade((String) (list.get(i).get("grade")));
@@ -275,5 +287,29 @@ public class ProfileDAO {
 		String updatePrivacy = "UPDATE profiles SET private=" +privacySetting +" WHERE id=" +id;
 		int answer = JDBCConnectionManager
 				.updateDatabase(updatePrivacy);
+	}
+
+	public static void deleteRow(String table, int id) {
+		// TODO Auto-generated method stub
+		String deleteRow = "DELETE FROM " +table +" WHERE id =" +id;
+		
+		int answer = JDBCConnectionManager
+				.updateDatabase(deleteRow);
+	}
+
+	public static void updateRow(String table, String values, int id) {
+		// TODO Auto-generated method stub
+		String updateRow = "UPDATE " +table +" SET " +values +" WHERE id=" +id;
+		
+		int answer = JDBCConnectionManager
+				.updateDatabase(updateRow);
+	}
+
+	public static void addRow(String table, String values) {
+		// TODO Auto-generated method stub
+		String addRow = "INSERT INTO " +table +" VALUES(" +values +");";
+		
+		int answer = JDBCConnectionManager
+				.updateDatabase(addRow);
 	}
 }
